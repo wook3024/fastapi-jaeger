@@ -48,14 +48,22 @@ services:
       - elasticsearch
 
   web:
-    image: tiangolo/uvicorn-gunicorn:python3.8
+    image: suy3024/fastapi-jaeger:${FASTAPI_JAEGER_IMAGE_VERSION:-0.0.0}
     container_name: web
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PYTHON_VERSION: ${PYTHON_VERSION:-3.9}
     restart: on-failure
     volumes:
       - ./:/workspace:rw
+      - ${BASE_VOLUME_DIR:-./docker}/logs/web:/tmp/logs:rw
     depends_on:
       - jaeger
       - elasticsearch
+    tty: true
+    entrypoint: bash
 
 volumes:
   esdata: {}
