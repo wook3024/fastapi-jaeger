@@ -1,4 +1,6 @@
-# jaeger
+# Jaeger with elasticsearch
+
+How to use app tracing with ElasticSearch.
 
 ### Search reporting span
 ```sh
