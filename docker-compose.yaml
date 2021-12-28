@@ -56,14 +56,16 @@ services:
       args:
         PYTHON_VERSION: ${PYTHON_VERSION:-3.9}
     restart: on-failure
+    ports:
+      - 8000:8000
+    environment:
+      - OTEL_SERVICE_NAME=Jaeger with FastAPI and ElasticSearch
     volumes:
       - ./:/workspace:rw
       - ${BASE_VOLUME_DIR:-./docker}/logs/web:/tmp/logs:rw
     depends_on:
       - jaeger
       - elasticsearch
-    tty: true
-    entrypoint: bash
 
 volumes:
   esdata: {}
