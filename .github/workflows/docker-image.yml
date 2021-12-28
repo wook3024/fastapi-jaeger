@@ -33,7 +33,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: suy3024/fastapi-celery
+          images: suy3024/fastapi-jaeger
           tag-semver: |
             {{version}}
             {{major}}.{{minor}}
