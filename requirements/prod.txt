@@ -4,16 +4,26 @@
 #
 #    pip-compile requirements/prod.in
 #
+antlr4-python3-runtime==4.8
+    # via omegaconf
 anyio==3.4.0
     # via starlette
 asgiref==3.4.1
-    # via uvicorn
+    # via
+    #   opentelemetry-instrumentation-asgi
+    #   uvicorn
 attrs==21.2.0
     # via pytest
 click==8.0.3
     # via uvicorn
+deprecated==1.2.13
+    # via opentelemetry-api
 fastapi==0.70.1
     # via -r requirements/prod.in
+googleapis-common-protos==1.54.0
+    # via opentelemetry-exporter-jaeger-proto-grpc
+grpcio==1.43.0
+    # via opentelemetry-exporter-jaeger-proto-grpc
 h11==0.12.0
     # via uvicorn
 idna==3.3
@@ -22,6 +32,45 @@ iniconfig==1.1.1
     # via pytest
 jaeger_client==4.8.0
     # via -r requirements/prod.in
+omegaconf==2.1.1
+    # via -r requirements/prod.in
+opentelemetry-api==1.8.0
+    # via
+    #   -r requirements/prod.in
+    #   opentelemetry-exporter-jaeger-proto-grpc
+    #   opentelemetry-exporter-jaeger-thrift
+    #   opentelemetry-instrumentation
+    #   opentelemetry-instrumentation-asgi
+    #   opentelemetry-instrumentation-fastapi
+    #   opentelemetry-sdk
+opentelemetry-exporter-jaeger==1.8.0
+    # via -r requirements/prod.in
+opentelemetry-exporter-jaeger-proto-grpc==1.8.0
+    # via opentelemetry-exporter-jaeger
+opentelemetry-exporter-jaeger-thrift==1.8.0
+    # via opentelemetry-exporter-jaeger
+opentelemetry-instrumentation==0.27b0
+    # via
+    #   opentelemetry-instrumentation-asgi
+    #   opentelemetry-instrumentation-fastapi
+opentelemetry-instrumentation-asgi==0.27b0
+    # via opentelemetry-instrumentation-fastapi
+opentelemetry-instrumentation-fastapi==0.27b0
+    # via -r requirements/prod.in
+opentelemetry-sdk==1.8.0
+    # via
+    #   -r requirements/prod.in
+    #   opentelemetry-exporter-jaeger-proto-grpc
+    #   opentelemetry-exporter-jaeger-thrift
+opentelemetry-semantic-conventions==0.27b0
+    # via
+    #   opentelemetry-instrumentation-asgi
+    #   opentelemetry-instrumentation-fastapi
+    #   opentelemetry-sdk
+opentelemetry-util-http==0.27b0
+    # via
+    #   opentelemetry-instrumentation-asgi
+    #   opentelemetry-instrumentation-fastapi
 opentracing==2.4.0
     # via jaeger-client
 orjson==3.6.5
@@ -30,6 +79,8 @@ packaging==21.3
     # via pytest
 pluggy==1.0.0
     # via pytest
+protobuf==3.19.1
+    # via googleapis-common-protos
 py==1.11.0
     # via pytest
 pydantic==1.8.2
@@ -38,8 +89,14 @@ pyparsing==3.0.6
     # via packaging
 pytest==6.2.5
     # via -r requirements/prod.in
+pyyaml==6.0
+    # via
+    #   -r requirements/prod.in
+    #   omegaconf
 six==1.16.0
-    # via thrift
+    # via
+    #   grpcio
+    #   thrift
 sniffio==1.2.0
     # via anyio
 starlette==0.16.0
@@ -47,7 +104,9 @@ starlette==0.16.0
 threadloop==1.0.2
     # via jaeger-client
 thrift==0.15.0
-    # via jaeger-client
+    # via
+    #   jaeger-client
+    #   opentelemetry-exporter-jaeger-thrift
 toml==0.10.2
     # via pytest
 tornado==6.1
@@ -58,3 +117,10 @@ typing-extensions==4.0.1
     # via pydantic
 uvicorn==0.16.0
     # via -r requirements/prod.in
+wrapt==1.13.3
+    # via
+    #   deprecated
+    #   opentelemetry-instrumentation
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
