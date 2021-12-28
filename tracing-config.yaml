@@ -1,0 +1,14 @@
+elasticsearch_address: elasticsearch
+elasticsearch_port: 9200
+reporting_host: jaeger
+
+config:
+    config:
+      sampler:
+        type: const
+        param: 1
+      local_agent:
+        reporting_host: jaeger
+      logging: true
+    service_name: fastapi-jaeger
+    validate: true

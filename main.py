@@ -1,34 +1,30 @@
-import logging
 import time
+import yaml
+
+from fastapi import FastAPI
+from omegaconf import OmegaConf
 from jaeger_client import Config
+from fastapi.responses import ORJSONResponse
 
-if __name__ == "__main__":
-    log_level = logging.DEBUG
-    logging.getLogger('').handlers = []
-    logging.basicConfig(format='%(asctime)s %(message)s', level=log_level)
 
-    config = Config(
-        config={ # usually read from some yaml config
-            'sampler': {
-                'type': 'const',
-                'param': 1,
-            },
-            'local_agent': {
-                'reporting_host': 'jaeger',
-            },
-            'logging': True,
-        },
-        service_name='your-app-name',
-        validate=True,
-    )
-    # this call also sets opentracing.tracer
-    tracer = config.initialize_tracer()
+with open("tracing-config.yaml", encoding="utf8") as f:
+    yaml_dict = yaml.safe_load(f)
+conf = OmegaConf.create(yaml_dict)
+config = Config(config=conf.get("config"))
+tracer = config.initialize_tracer()
 
-    with tracer.start_span('TestSpan') as span:
-        span.log_kv({'event': 'test message', 'life': 42})
 
-        with tracer.start_span('ChildSpan', child_of=span) as child_span:
-            child_span.log_kv({'event': 'down below'})
+app = FastAPI(
+    title="Jaeger with FastAPI",
+    default_response_class=ORJSONResponse,
+)
 
-    time.sleep(2)   # yield to IOLoop to flush the spans - https://github.com/jaegertracing/jaeger-client-python/issues/50
-    tracer.close()  # flush any buffered spans
+
+@app.get("/span/{id}", status_code=200)
+def get_status(id: str) -> ORJSONResponse:
+    with tracer.start_span("ParentSpan") as span:
+        span.log_kv({"event": "test message", "life": 42})
+        time.sleep(2)
+        with tracer.start_span("ChildSpan", child_of=span) as child_span:
+            child_span.log_kv({"event": "down below"})
+    return ORJSONResponse(content="\n")
