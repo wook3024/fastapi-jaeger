@@ -21,4 +21,6 @@ USER appuser
 
 RUN mkdir /tmp/logs
 
+WORKDIR /workspace/backend
+
 ENTRYPOINT [ "uvicorn", "main:app", "--host", "0.0.0.0", "--reload", "--reload-exclude", "logs/" ]
