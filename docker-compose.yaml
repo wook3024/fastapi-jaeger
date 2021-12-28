@@ -62,7 +62,7 @@ services:
       - OTEL_SERVICE_NAME=Jaeger with FastAPI and ElasticSearch
     volumes:
       - ./:/workspace:rw
-      - ${BASE_VOLUME_DIR:-./docker}/logs/web:/tmp/logs:rw
+      - ${BASE_VOLUME_DIR:-./logs}/web:/tmp/logs:rw
     depends_on:
       - jaeger
       - elasticsearch
