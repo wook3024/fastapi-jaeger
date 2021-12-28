@@ -1,4 +1,4 @@
-# Jaeger with elasticsearch
+# Jaeger with FastAPI and ElasticSearch
 
 How to use app tracing with ElasticSearch.
 
